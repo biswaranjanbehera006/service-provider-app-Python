@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+
+                <!-- HEADER -->
+                <div class="bg-dark text-white text-center p-5">
+
+                    <!-- PROFILE IMAGE -->
+                    {% if user.profile_image %}
+                        <img
+                            src="{{ user.profile_image.url }}"
+                            class="rounded-circle shadow mb-3"
+                            width="130"
+                            height="130"
+                            style="object-fit: cover;"
+                        >
+                    {% else %}
+                        <img
+                            src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                            class="rounded-circle shadow mb-3"
+                            width="130"
+                            height="130"
+                        >
+                    {% endif %}
+
+                    <h2 class="fw-bold">
+                        {{ user.first_name }}
+                    </h2>
+
+                    <p class="mb-0 text-light">
+                        {{ user.email }}
+                    </p>
+
+                </div>
+
+                <!-- BODY -->
+                <div class="card-body p-4 p-md-5">
+
+                    <form method="POST" enctype="multipart/form-data">
+
+                        {% csrf_token %}
+
+                        <!-- FULL NAME -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Full Name
+                            </label>
+
+                            <input
+                                type="text"
+                                name="first_name"
+                                class="form-control form-control-lg"
+                                value="{{ user.first_name }}"
+                                required
+                            >
+
+                        </div>
+
+                        <!-- EMAIL -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Email Address
+                            </label>
+
+                            <input
+                                type="email"
+                                class="form-control form-control-lg bg-light"
+                                value="{{ user.email }}"
+                                readonly
+                            >
+
+                            <small class="text-muted">
+                                Email cannot be changed
+                            </small>
+
+                        </div>
+
+                        <!-- PHONE -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Phone Number
+                            </label>
+
+                            <input
+                                type="text"
+                                name="phone"
+                                class="form-control form-control-lg"
+                                value="{{ user.phone }}"
+                                required
+                            >
+
+                        </div>
+
+                        <!-- PROFILE IMAGE -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Profile Photo
+                            </label>
+
+                            <input
+                                type="file"
+                                name="profile_image"
+                                class="form-control"
+                            >
+
+                        </div>
+
+                        <!-- ROLE -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Account Type
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control form-control-lg bg-light"
+                                value="{{ user.role|title }}"
+                                readonly
+                            >
+
+                        </div>
+
+                        <!-- BUTTON -->
+                        <div class="d-grid">
+
+                            <button
+                                type="submit"
+                                class="btn btn-dark btn-lg rounded-3 fw-bold"
+                            >
+                                Update Profile
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -5,11 +5,15 @@ from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 
 from .forms import RegisterForm
 from .models import EmailOTP
 from providers.models import ProviderApplication
 from bookings.models import Booking
+
+
+
 
 
 # =========================
@@ -18,18 +22,30 @@ from bookings.models import Booking
 def register_view(request):
 
     if request.method == 'POST':
+
         form = RegisterForm(request.POST, request.FILES)
 
         if form.is_valid():
+
             user = form.save(commit=False)
 
-            # 🔥 BLOCK USER UNTIL VERIFIED
+            # 🔥 SAVE FULL NAME
+            user.first_name = form.cleaned_data.get('first_name')
+
+            # 🔥 SAVE PHONE
+            user.phone = form.cleaned_data.get('phone')
+
+            # 🔥 BLOCK LOGIN UNTIL EMAIL VERIFIED
             user.is_active = False
             user.is_email_verified = False
+
             user.save()
 
-            # 🔥 SAVE PROVIDER FILES
+            # =========================
+            # 🔥 PROVIDER APPLICATION
+            # =========================
             if user.role == 'provider':
+
                 application = ProviderApplication.objects.create(
                     user=user,
                     aadhar_card=request.FILES.get('aadhar_card'),
@@ -39,32 +55,56 @@ def register_view(request):
                 )
 
                 services = form.cleaned_data.get('services')
+
                 if services:
                     application.services.set(services)
 
+            # =========================
             # 🔥 CREATE OTP
+            # =========================
             otp_obj = EmailOTP.objects.create(user=user)
             otp_obj.generate_otp()
 
+            # =========================
             # 🔥 SEND EMAIL
+            # =========================
             send_mail(
-                "Email Verification",
-                f"Your OTP is: {otp_obj.otp}",
-                settings.EMAIL_HOST_USER,
-                [user.email],
+                subject='Email Verification OTP',
+                message=f'''
+Hello {user.first_name},
+
+Your OTP for email verification is:
+
+{otp_obj.otp}
+
+Do not share this OTP with anyone.
+
+Service Platform Team
+                ''',
+                from_email=settings.EMAIL_HOST_USER,
+                recipient_list=[user.email],
                 fail_silently=False,
             )
 
-            messages.info(request, "📧 OTP sent to your email")
+            messages.success(
+                request,
+                "📧 OTP sent to your email successfully."
+            )
+
             return redirect('verify_email', user_id=user.id)
 
         else:
-            messages.error(request, "⚠️ Please fix the errors below.")
+            messages.error(
+                request,
+                "⚠️ Please correct the errors below."
+            )
 
     else:
         form = RegisterForm()
 
-    return render(request, 'users/register.html', {'form': form})
+    return render(request, 'users/register.html', {
+        'form': form
+    })
 
 
 # =========================
@@ -73,11 +113,13 @@ def register_view(request):
 def verify_email(request, user_id):
 
     User = get_user_model()
+
     user = get_object_or_404(User, id=user_id)
 
     otp_obj = EmailOTP.objects.filter(user=user).last()
 
     if request.method == 'POST':
+
         entered_otp = request.POST.get('otp')
 
         if otp_obj and otp_obj.otp == entered_otp:
@@ -87,15 +129,32 @@ def verify_email(request, user_id):
             user.is_email_verified = True
             user.save()
 
-            messages.success(request, "✅ Email verified successfully!")
+            messages.success(
+                request,
+                "✅ Email verified successfully!"
+            )
 
             login(request, user)
-            return redirect('home')
+
+            # 🔥 ROLE REDIRECT
+            if user.role == 'admin':
+                return redirect('admin_dashboard')
+
+            elif user.role == 'provider':
+                return redirect('provider_dashboard')
+
+            else:
+                return redirect('home')
 
         else:
-            messages.error(request, "❌ Invalid OTP")
+            messages.error(
+                request,
+                "❌ Invalid OTP. Please try again."
+            )
 
-    return render(request, 'users/verify.html', {'user': user})
+    return render(request, 'users/verify.html', {
+        'user': user
+    })
 
 
 # =========================
@@ -110,39 +169,91 @@ def login_view(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
 
-        user = authenticate(request, username=username, password=password)
+        user = authenticate(
+            request,
+            username=username,
+            password=password
+        )
 
         if user:
 
-            # 🚨 HARD BLOCK (MOST IMPORTANT)
+            # =========================
+            # 🚫 EMAIL VERIFICATION CHECK
+            # =========================
             if not user.is_active:
-                messages.warning(request, "📧 Please verify your email first.")
-                return redirect('verify_email', user_id=user.id)
 
-            # 🚨 DOUBLE CHECK EMAIL
+                messages.warning(
+                    request,
+                    "📧 Please verify your email first."
+                )
+
+                return redirect(
+                    'verify_email',
+                    user_id=user.id
+                )
+
             if not user.is_email_verified:
-                messages.warning(request, "📧 Please verify your email.")
-                return redirect('verify_email', user_id=user.id)
 
-            # 🔥 PROVIDER CHECK
+                messages.warning(
+                    request,
+                    "📧 Please verify your email."
+                )
+
+                return redirect(
+                    'verify_email',
+                    user_id=user.id
+                )
+
+            # =========================
+            # 🔥 PROVIDER VALIDATION
+            # =========================
             if user.role == 'provider':
+
                 try:
-                    application = ProviderApplication.objects.get(user=user)
+                    application = ProviderApplication.objects.get(
+                        user=user
+                    )
 
                     if application.status == 'pending':
-                        messages.warning(request, "⏳ Application under review.")
+
+                        messages.warning(
+                            request,
+                            "⏳ Your provider application is under review."
+                        )
+
                         return redirect('login')
 
                     elif application.status == 'rejected':
-                        messages.error(request, "❌ Application rejected.")
+
+                        messages.error(
+                            request,
+                            "❌ Your provider application was rejected."
+                        )
+
                         return redirect('login')
 
                 except ProviderApplication.DoesNotExist:
-                    messages.error(request, "⚠️ No provider application found.")
+
+                    messages.error(
+                        request,
+                        "⚠️ Provider application not found."
+                    )
+
                     return redirect('register')
 
+            # =========================
+            # ✅ LOGIN USER
+            # =========================
             login(request, user)
 
+            messages.success(
+                request,
+                f"Welcome back, {user.first_name} 👋"
+            )
+
+            # =========================
+            # 🔥 REDIRECT LOGIC
+            # =========================
             if next_url and next_url not in ['/', 'None']:
                 return redirect(next_url)
 
@@ -156,9 +267,14 @@ def login_view(request):
                 return redirect('home')
 
         else:
-            messages.error(request, "❌ Invalid username or password.")
+            messages.error(
+                request,
+                "❌ Invalid username or password."
+            )
 
-    return render(request, 'users/login.html', {'next': next_url})
+    return render(request, 'users/login.html', {
+        'next': next_url
+    })
 
 
 # =========================
@@ -185,20 +301,33 @@ def user_dashboard(request):
 @login_required
 def cancel_booking(request, id):
 
-    booking = get_object_or_404(Booking, id=id, user=request.user)
+    booking = get_object_or_404(
+        Booking,
+        id=id,
+        user=request.user
+    )
 
     if booking.status in ['completed', 'cancelled']:
-        messages.warning(request, "⚠️ This booking cannot be cancelled.")
+
+        messages.warning(
+            request,
+            "⚠️ This booking cannot be cancelled."
+        )
+
         return redirect('user_dashboard')
 
     booking.status = 'cancelled'
     booking.save()
 
+    # 🔥 MAKE PROVIDER AVAILABLE AGAIN
     if booking.provider:
         booking.provider.is_available = True
         booking.provider.save()
 
-    messages.success(request, "❌ Booking cancelled successfully!")
+    messages.success(
+        request,
+        "❌ Booking cancelled successfully!"
+    )
 
     return redirect('user_dashboard')
 
@@ -207,6 +336,45 @@ def cancel_booking(request, id):
 # ✅ LOGOUT
 # =========================
 def logout_view(request):
+
     logout(request)
-    messages.info(request, "👋 Logged out successfully.")
+
+    messages.info(
+        request,
+        "👋 Logged out successfully."
+    )
+
     return redirect('home')
+
+
+
+# =========================
+# ✅ USER PROFILE
+# =========================
+@login_required
+def profile_view(request):
+
+    user = request.user
+
+    if request.method == 'POST':
+
+        # 🔥 UPDATE NAME
+        user.first_name = request.POST.get('first_name')
+
+        # 🔥 UPDATE PHONE
+        user.phone = request.POST.get('phone')
+
+        # 🔥 UPDATE PROFILE IMAGE
+        if request.FILES.get('profile_image'):
+            user.profile_image = request.FILES.get('profile_image')
+
+        user.save()
+
+        messages.success(
+            request,
+            "✅ Profile updated successfully!"
+        )
+
+        return redirect('profile')
+
+    return render(request, 'users/profile.html')

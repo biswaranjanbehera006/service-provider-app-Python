@@ -6,124 +6,286 @@
 
     <div class="row justify-content-center">
 
-        <div class="col-lg-5 col-md-7">
+        <div class="col-xl-5 col-lg-6 col-md-8">
 
-            <div class="card shadow p-4">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
 
-                <!-- TITLE -->
-                <h3 class="text-center fw-bold mb-3">Create Account</h3>
-                <p class="text-center text-muted mb-4">Join our platform</p>
-
-                <!-- ERROR -->
-                {% if form.errors %}
-                <div class="alert alert-danger text-center">
-                    Please fix the errors below
+                <!-- HEADER -->
+                <div class="bg-dark text-white text-center p-4">
+                    <h2 class="fw-bold mb-1">Create Account</h2>
+                    <p class="mb-0 text-light">
+                        Join our service platform 🚀
+                    </p>
                 </div>
-                {% endif %}
 
-                <form method="POST" enctype="multipart/form-data">
-                    {% csrf_token %}
+                <div class="card-body p-4 p-md-5">
 
-                    <!-- NAME -->
-                    <div class="mb-3">
-                        <label class="form-label">Name</label>
-                        {{ form.username }}
-                        <small class="text-danger">{{ form.username.errors }}</small>
+                    <!-- GLOBAL ERROR -->
+                    {% if form.errors %}
+                    <div class="alert alert-danger text-center rounded-3">
+                        ⚠️ Please fix the errors below
                     </div>
+                    {% endif %}
 
-                    <!-- EMAIL -->
-                    <div class="mb-3">
-                        <label class="form-label">Email</label>
-                        {{ form.email }}
-                        <small class="text-danger">{{ form.email.errors }}</small>
-                    </div>
+                    <!-- FORM -->
+                    <form method="POST" enctype="multipart/form-data">
 
-                    <!-- PASSWORD -->
-                    <div class="mb-3">
-                        <label class="form-label">Password</label>
-                        {{ form.password1 }}
-                        <small class="text-danger">{{ form.password1.errors }}</small>
-                    </div>
+                        {% csrf_token %}
 
-                    <!-- CONFIRM PASSWORD -->
-                    <div class="mb-3">
-                        <label class="form-label">Confirm Password</label>
-                        {{ form.password2 }}
-                        <small class="text-danger">{{ form.password2.errors }}</small>
-                    </div>
-
-                    <!-- ROLE -->
-                    <div class="mb-3">
-                        <label class="form-label">Role</label>
-                        {{ form.role }}
-                    </div>
-
-                    <!-- PROVIDER SECTION -->
-                    <div id="provider-fields" style="display:none;">
-
-                        <hr>
-
-                        <h6 class="fw-bold mb-3">Provider Details</h6>
-
-                        <div class="mb-2">
-                            <label class="form-label">Aadhar Card</label>
-                            {{ form.aadhar_card }}
-                        </div>
-
-                        <div class="mb-2">
-                            <label class="form-label">Passport Photo</label>
-                            {{ form.passport_photo }}
-                        </div>
-
-                        <div class="mb-2">
-                            <label class="form-label">CV</label>
-                            {{ form.cv }}
-                        </div>
-
+                        <!-- FULL NAME -->
                         <div class="mb-3">
-                            <label class="form-label">Driving License</label>
-                            {{ form.driving_license }}
+
+                            <label class="form-label fw-semibold">
+                                Full Name
+                            </label>
+
+                            {{ form.first_name }}
+
+                            <small class="text-danger">
+                                {{ form.first_name.errors }}
+                            </small>
+
                         </div>
 
-                        <!-- SERVICES -->
+                        <!-- USERNAME -->
                         <div class="mb-3">
-                            <label class="form-label">Select Services</label>
 
-                            <div class="row">
-                                {% for service in form.services.field.queryset %}
-                                <div class="col-6">
-                                    <div class="form-check">
-                                        <input class="form-check-input"
-                                               type="checkbox"
-                                               name="services"
-                                               value="{{ service.id }}"
-                                               id="service{{ service.id }}">
+                            <label class="form-label fw-semibold">
+                                Username
+                            </label>
 
-                                        <label class="form-check-label" for="service{{ service.id }}">
-                                            {{ service.name }}
-                                        </label>
-                                    </div>
+                            {{ form.username }}
+
+                            <small class="text-danger">
+                                {{ form.username.errors }}
+                            </small>
+
+                        </div>
+
+                        <!-- EMAIL -->
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+                                Email Address
+                            </label>
+
+                            {{ form.email }}
+
+                            <small class="text-danger">
+                                {{ form.email.errors }}
+                            </small>
+
+                        </div>
+
+                        <!-- PHONE -->
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+                                Phone Number
+                            </label>
+
+                            {{ form.phone }}
+
+                            <small class="text-danger">
+                                {{ form.phone.errors }}
+                            </small>
+
+                        </div>
+
+                        <!-- PASSWORD -->
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+                                Password
+                            </label>
+
+                            {{ form.password1 }}
+
+                            <small class="text-danger">
+                                {{ form.password1.errors }}
+                            </small>
+
+                        </div>
+
+                        <!-- CONFIRM PASSWORD -->
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+                                Confirm Password
+                            </label>
+
+                            {{ form.password2 }}
+
+                            <small class="text-danger">
+                                {{ form.password2.errors }}
+                            </small>
+
+                        </div>
+
+                        <!-- ROLE -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Select Role
+                            </label>
+
+                            {{ form.role }}
+
+                        </div>
+
+                        <!-- ========================= -->
+                        <!-- PROVIDER SECTION -->
+                        <!-- ========================= -->
+                        <div id="provider-fields" style="display:none;">
+
+                            <div class="border rounded-4 p-4 bg-light">
+
+                                <h5 class="fw-bold mb-4">
+                                    Provider Verification
+                                </h5>
+
+                                <!-- AADHAR -->
+                                <div class="mb-3">
+
+                                    <label class="form-label fw-semibold">
+                                        Aadhar Card
+                                    </label>
+
+                                    {{ form.aadhar_card }}
+
+                                    <small class="text-danger">
+                                        {{ form.aadhar_card.errors }}
+                                    </small>
+
                                 </div>
-                                {% endfor %}
+
+                                <!-- PHOTO -->
+                                <div class="mb-3">
+
+                                    <label class="form-label fw-semibold">
+                                        Passport Photo
+                                    </label>
+
+                                    {{ form.passport_photo }}
+
+                                    <small class="text-danger">
+                                        {{ form.passport_photo.errors }}
+                                    </small>
+
+                                </div>
+
+                                <!-- CV -->
+                                <div class="mb-3">
+
+                                    <label class="form-label fw-semibold">
+                                        CV / Resume
+                                    </label>
+
+                                    {{ form.cv }}
+
+                                    <small class="text-danger">
+                                        {{ form.cv.errors }}
+                                    </small>
+
+                                </div>
+
+                                <!-- LICENSE -->
+                                <div class="mb-4">
+
+                                    <label class="form-label fw-semibold">
+                                        Driving License
+                                    </label>
+
+                                    {{ form.driving_license }}
+
+                                    <small class="text-danger">
+                                        {{ form.driving_license.errors }}
+                                    </small>
+
+                                </div>
+
+                                <!-- SERVICES -->
+                                <div class="mb-3">
+
+                                    <label class="form-label fw-semibold">
+                                        Select Services
+                                    </label>
+
+                                    <div class="row g-2 mt-1">
+
+                                        {% for service in form.services.field.queryset %}
+
+                                        <div class="col-md-6">
+
+                                            <div class="border rounded-3 p-2 bg-white">
+
+                                                <div class="form-check">
+
+                                                    <input
+                                                        class="form-check-input"
+                                                        type="checkbox"
+                                                        name="services"
+                                                        value="{{ service.id }}"
+                                                        id="service{{ service.id }}"
+                                                    >
+
+                                                    <label
+                                                        class="form-check-label"
+                                                        for="service{{ service.id }}"
+                                                    >
+                                                        {{ service.name }}
+                                                    </label>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                        {% endfor %}
+
+                                    </div>
+
+                                    <small class="text-danger">
+                                        {{ form.services.errors }}
+                                    </small>
+
+                                </div>
+
                             </div>
 
-                            <small class="text-danger">{{ form.services.errors }}</small>
                         </div>
 
+                        <!-- REGISTER BUTTON -->
+                        <div class="d-grid mt-4">
+
+                            <button
+                                type="submit"
+                                class="btn btn-dark btn-lg rounded-3 fw-bold"
+                            >
+                                Create Account
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                    <!-- LOGIN -->
+                    <div class="text-center mt-4">
+
+                        <p class="mb-0 text-muted">
+                            Already have an account?
+                        </p>
+
+                        <a
+                            href="{% url 'login' %}"
+                            class="text-decoration-none fw-semibold"
+                        >
+                            Login Here
+                        </a>
+
                     </div>
 
-                    <!-- BUTTON -->
-                    <div class="d-grid mt-3">
-                        <button class="btn btn-primary fw-bold">
-                            Register
-                        </button>
-                    </div>
-
-                </form>
-
-                <!-- FOOTER -->
-                <div class="text-center mt-3">
-                    <a href="/" class="text-decoration-none">← Back to Home</a>
                 </div>
 
             </div>
@@ -134,21 +296,36 @@
 
 </div>
 
-<!-- 🔥 SCRIPT -->
+<!-- ========================= -->
+<!-- PROVIDER TOGGLE SCRIPT -->
+<!-- ========================= -->
 <script>
-    const roleField = document.querySelector('[name="role"]');
-    const providerFields = document.getElementById('provider-fields');
 
-    function toggleFields() {
+    const roleField = document.querySelector('[name="role"]');
+
+    const providerFields =
+        document.getElementById('provider-fields');
+
+    function toggleProviderFields() {
+
         if (roleField.value === 'provider') {
+
             providerFields.style.display = 'block';
+
         } else {
+
             providerFields.style.display = 'none';
+
         }
     }
 
-    roleField.addEventListener('change', toggleFields);
-    window.onload = toggleFields;
+    roleField.addEventListener(
+        'change',
+        toggleProviderFields
+    );
+
+    window.onload = toggleProviderFields;
+
 </script>
 
 {% endblock %}

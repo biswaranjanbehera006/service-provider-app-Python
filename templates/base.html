@@ -8,11 +8,23 @@
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom Styling -->
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- CUSTOM STYLING -->
     <style>
+
         body {
             background-color: #f5f7fa;
             font-family: 'Segoe UI', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            backdrop-filter: blur(8px);
         }
 
         .navbar-brand {
@@ -22,87 +34,237 @@
         }
 
         .card {
-            border-radius: 14px;
+            border-radius: 16px;
         }
 
         .btn {
-            border-radius: 8px;
-            padding: 6px 14px;
+            border-radius: 10px;
+            padding: 7px 16px;
+            font-weight: 500;
+            transition: 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
         }
 
         footer {
             font-size: 14px;
+            margin-top: auto;
         }
 
         .alert {
-            border-radius: 10px;
+            border-radius: 12px;
         }
+
+        /* PROFILE IMAGE NAVBAR */
+        .nav-profile-img {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255,255,255,0.4);
+        }
+
+        .profile-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 12px;
+            border-radius: 50px;
+        }
+
+        /* MOBILE FIX */
+        @media (max-width: 768px) {
+
+            .navbar .btn {
+                width: 100%;
+                margin-top: 8px;
+            }
+
+            .navbar .d-flex {
+                width: 100%;
+                flex-direction: column;
+                align-items: stretch !important;
+            }
+
+        }
+
     </style>
 </head>
 
 <body>
 
+<!-- ========================= -->
 <!-- 🚀 NAVBAR -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm px-4">
-    <a class="navbar-brand" href="/">ServiceApp</a>
+<!-- ========================= -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm px-3 px-lg-4">
 
-    <!-- Mobile Toggle -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+    <!-- LOGO -->
+    <a class="navbar-brand" href="/">
+        <i class="bi bi-tools"></i> ServiceApp
+    </a>
+
+    <!-- MOBILE TOGGLE -->
+    <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+    >
         <span class="navbar-toggler-icon"></span>
     </button>
 
-    <!-- Navbar Content -->
+    <!-- NAVBAR CONTENT -->
     <div class="collapse navbar-collapse" id="navbarNav">
+
         <div class="ms-auto d-flex align-items-center gap-2">
 
             {% if user.is_authenticated %}
 
+                <!-- ========================= -->
+                <!-- CUSTOMER -->
+                <!-- ========================= -->
                 {% if user.role == 'customer' %}
-                    <a href="/users/dashboard/" class="btn btn-warning">My Bookings</a>
 
+                    <a href="/users/dashboard/"
+                       class="btn btn-warning">
+                        <i class="bi bi-calendar-check"></i>
+                        My Bookings
+                    </a>
+
+                <!-- ========================= -->
+                <!-- PROVIDER -->
+                <!-- ========================= -->
                 {% elif user.role == 'provider' %}
-                    <a href="/provider/dashboard/" class="btn btn-info">Provider Dashboard</a>
 
-                {% elif user.is_superuser %}
-                    <!-- 🔥 FIXED ADMIN BUTTON -->
-                    <a href="/admin-panel/dashboard/" class="btn btn-secondary">Admin Dashboard</a>
+                    <a href="/provider/dashboard/"
+                       class="btn btn-info text-white">
+                        <i class="bi bi-speedometer2"></i>
+                        Provider Dashboard
+                    </a>
+
+                <!-- ========================= -->
+                <!-- ADMIN -->
+                <!-- ========================= -->
+                {% elif user.is_superuser or user.role == 'admin' %}
+
+                    <a href="/admin-panel/dashboard/"
+                       class="btn btn-secondary">
+                        <i class="bi bi-shield-lock"></i>
+                        Admin Dashboard
+                    </a>
+
                 {% endif %}
 
-                <a href="/users/logout/" class="btn btn-danger">Logout</a>
+                <!-- ========================= -->
+                <!-- PROFILE BUTTON -->
+                <!-- ========================= -->
+                <a href="{% url 'profile' %}"
+                   class="btn btn-outline-light profile-btn">
+
+                    {% if user.profile_image %}
+
+                        <img
+                            src="{{ user.profile_image.url }}"
+                            class="nav-profile-img"
+                        >
+
+                    {% else %}
+
+                        <img
+                            src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                            class="nav-profile-img"
+                        >
+
+                    {% endif %}
+
+                    <span>
+                        {{ user.first_name|default:user.username }}
+                    </span>
+
+                </a>
+
+                <!-- LOGOUT -->
+                <a href="/users/logout/"
+                   class="btn btn-danger">
+                    <i class="bi bi-box-arrow-right"></i>
+                    Logout
+                </a>
 
             {% else %}
-                <a href="/users/login/" class="btn btn-outline-light">Login</a>
-                <a href="/users/register/" class="btn btn-primary">Register</a>
+
+                <!-- LOGIN -->
+                <a href="/users/login/"
+                   class="btn btn-outline-light">
+                    <i class="bi bi-box-arrow-in-right"></i>
+                    Login
+                </a>
+
+                <!-- REGISTER -->
+                <a href="/users/register/"
+                   class="btn btn-primary">
+                    <i class="bi bi-person-plus"></i>
+                    Register
+                </a>
+
             {% endif %}
 
         </div>
+
     </div>
+
 </nav>
 
 
+<!-- ========================= -->
 <!-- 🚀 ALERT MESSAGES -->
+<!-- ========================= -->
 {% if messages %}
+
 <div class="container mt-3">
+
     {% for message in messages %}
+
         <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm">
+
             {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+
+            <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert">
+            </button>
+
         </div>
+
     {% endfor %}
+
 </div>
+
 {% endif %}
 
 
+<!-- ========================= -->
 <!-- 🚀 MAIN CONTENT -->
+<!-- ========================= -->
 <div class="container mt-4">
+
     {% block content %}
     {% endblock %}
+
 </div>
 
 
+<!-- ========================= -->
 <!-- 🚀 FOOTER -->
+<!-- ========================= -->
 <footer class="bg-dark text-light text-center py-3 mt-5">
-    <p class="mb-0">© 2026 Service Platform | Built with Django</p>
+
+    <p class="mb-0">
+        © 2026 Service Platform | Built with Django 🚀
+    </p>
+
 </footer>
 
 
@@ -110,22 +272,42 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 
+<!-- ========================= -->
 <!-- 🔥 ADMIN BACK BUTTON FIX -->
+<!-- ========================= -->
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
 
-        const isAdmin = "{{ request.user.is_superuser|yesno:'true,false' }}" === "true";
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
 
-        if (isAdmin && window.location.pathname.startsWith("/admin-panel")) {
+            const isAdmin =
+                "{{ request.user.is_superuser|yesno:'true,false' }}"
+                === "true";
 
-            // Push state so browser back doesn't go to home
-            history.pushState(null, null, location.href);
+            if (
+                isAdmin &&
+                window.location.pathname.startsWith("/admin-panel")
+            ) {
 
-            window.addEventListener("popstate", function () {
-                window.location.href = "/admin-panel/dashboard/";
-            });
+                history.pushState(
+                    null,
+                    null,
+                    location.href
+                );
+
+                window.addEventListener(
+                    "popstate",
+                    function () {
+
+                        window.location.href =
+                            "/admin-panel/dashboard/";
+                    }
+                );
+            }
         }
-    });
+    );
+
 </script>
 
 </body>
