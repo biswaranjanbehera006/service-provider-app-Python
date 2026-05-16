@@ -76,6 +76,12 @@ class RegisterForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+        # REMOVE ADMIN ROLE
+        self.fields['role'].choices = [
+            ('customer', 'Customer'),
+            ('provider', 'Provider'),
+]
+
         self.fields['password1'].widget.attrs.update({
             'class': 'form-control',
             'placeholder': 'Enter password'

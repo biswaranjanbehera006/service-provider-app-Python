@@ -2,45 +2,321 @@
 
 {% block content %}
 
-<div class="container mt-5">
+<div class="container-fluid py-4 px-lg-4 px-3 bg-light min-vh-100">
 
-    <div class="card shadow-lg p-4 border-0">
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
 
-        <h3 class="mb-4">Add New Service</h3>
+        <!-- LEFT -->
+        <div>
 
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
+            <span class="badge bg-dark rounded-pill px-3 py-2 mb-3">
 
-            <div class="mb-3">
-                <label>Category</label>
-                {{ form.category }}
-            </div>
+                Admin Panel
 
-            <div class="mb-3">
-                <label>Service Name</label>
-                {{ form.name }}
-            </div>
+            </span>
 
-            <div class="mb-3">
-                <label>Description</label>
-                {{ form.description }}
-            </div>
+            <h1 class="fw-bold mb-1">
 
-            <div class="mb-3">
-                <label>Price</label>
-                {{ form.price }}
-            </div>
+                Add New Service 🚀
 
-            <div class="mb-3">
-                <label>Image</label>
-                {{ form.image }}
-            </div>
+            </h1>
 
-            <button class="btn btn-success w-100">Add Service</button>
+            <p class="text-muted mb-0">
 
-        </form>
+                Create and publish new services professionally
+
+            </p>
+
+        </div>
+
+        <!-- RIGHT -->
+        <div>
+
+            <!-- BACK BUTTON -->
+            <a
+                href="/admin-panel/services/"
+                class="btn btn-outline-dark rounded-pill px-4"
+            >
+
+                <i class="bi bi-arrow-left me-2"></i>
+
+                Back
+
+            </a>
+
+        </div>
 
     </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="row g-4">
+
+        <!-- FORM -->
+        <div class="col-lg-8">
+
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+
+                <!-- TOP -->
+                <div class="bg-dark text-white p-4">
+
+                    <h3 class="fw-bold mb-1">
+
+                        Service Information
+
+                    </h3>
+
+                    <p class="mb-0 text-light">
+
+                        Fill all required service details carefully
+
+                    </p>
+
+                </div>
+
+                <!-- BODY -->
+                <div class="card-body p-4 p-lg-5">
+
+                    <!-- FORM -->
+                    <form
+                        method="POST"
+                        enctype="multipart/form-data"
+                    >
+
+                        {% csrf_token %}
+
+                        <!-- CATEGORY -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold mb-2">
+
+                                Category
+
+                            </label>
+
+                            {{ form.category }}
+
+                        </div>
+
+                        <!-- NAME -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold mb-2">
+
+                                Service Name
+
+                            </label>
+
+                            {{ form.name }}
+
+                        </div>
+
+                        <!-- DESCRIPTION -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold mb-2">
+
+                                Description
+
+                            </label>
+
+                            {{ form.description }}
+
+                        </div>
+
+                        <!-- PRICE -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold mb-2">
+
+                                Price
+
+                            </label>
+
+                            {{ form.price }}
+
+                        </div>
+
+                        <!-- IMAGE -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold mb-2">
+
+                                Service Image
+
+                            </label>
+
+                            <div class="border rounded-4 p-4 bg-light">
+
+                                {{ form.image }}
+
+                                <small class="text-muted d-block mt-3">
+
+                                    Upload high quality professional service image
+
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                        <!-- BUTTON -->
+                        <button
+                            type="submit"
+                            class="btn btn-dark w-100 py-3 rounded-pill fw-semibold"
+                        >
+
+                            <i class="bi bi-plus-circle-fill me-2"></i>
+
+                            Add Service
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT SIDE -->
+        <div class="col-lg-4">
+
+            <!-- GUIDELINES -->
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                <div class="card-body p-4 text-center">
+
+                    <div class="bg-primary bg-opacity-10 rounded-circle p-4 d-inline-flex mb-4">
+
+                        <i class="bi bi-tools display-5 text-primary"></i>
+
+                    </div>
+
+                    <h4 class="fw-bold">
+
+                        Service Guidelines
+
+                    </h4>
+
+                    <p class="text-muted mt-3 mb-0">
+
+                        Add clear service details,
+                        proper pricing and professional
+                        images for better customer engagement.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- TIPS -->
+            <div class="card border-0 shadow-sm rounded-4">
+
+                <div class="card-body p-4">
+
+                    <h5 class="fw-bold mb-4">
+
+                        Tips 💡
+
+                    </h5>
+
+                    <div class="d-flex flex-column gap-3">
+
+                        <div class="d-flex align-items-start gap-3">
+
+                            <div class="bg-success bg-opacity-10 p-2 rounded-circle">
+
+                                <i class="bi bi-check-lg text-success"></i>
+
+                            </div>
+
+                            <div>
+
+                                <small>
+
+                                    Use clear and short service names
+
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                        <div class="d-flex align-items-start gap-3">
+
+                            <div class="bg-primary bg-opacity-10 p-2 rounded-circle">
+
+                                <i class="bi bi-image-fill text-primary"></i>
+
+                            </div>
+
+                            <div>
+
+                                <small>
+
+                                    Upload professional images
+
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                        <div class="d-flex align-items-start gap-3">
+
+                            <div class="bg-warning bg-opacity-10 p-2 rounded-circle">
+
+                                <i class="bi bi-pencil-fill text-warning"></i>
+
+                            </div>
+
+                            <div>
+
+                                <small>
+
+                                    Keep descriptions short and attractive
+
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                        <div class="d-flex align-items-start gap-3">
+
+                            <div class="bg-danger bg-opacity-10 p-2 rounded-circle">
+
+                                <i class="bi bi-currency-rupee text-danger"></i>
+
+                            </div>
+
+                            <div>
+
+                                <small>
+
+                                    Keep pricing accurate and competitive
+
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- SPACE BEFORE FOOTER -->
+    <div class="py-5"></div>
 
 </div>
 

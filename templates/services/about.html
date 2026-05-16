@@ -1,0 +1,462 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- HERO -->
+<section class="py-5 bg-body-tertiary">
+
+    <div class="container">
+
+        <div class="row align-items-center g-5">
+
+            <!-- LEFT -->
+            <div class="col-lg-6">
+
+                <span class="badge bg-dark rounded-pill px-4 py-3 fs-6 mb-4">
+
+                    About ServiceHub
+
+                </span>
+
+                <h1 class="display-3 fw-bold mb-4">
+
+                    Trusted Home Service Platform
+
+                </h1>
+
+                <p class="fs-5 text-secondary mb-4">
+
+                    ServiceHub connects customers with
+                    verified professionals for home services
+                    like AC repair, electrician, plumbing,
+                    salon, cleaning and more.
+
+                </p>
+
+                <p class="text-muted">
+
+                    Our mission is to make home services
+                    easy, secure and accessible for everyone.
+
+                </p>
+
+            </div>
+
+            <!-- RIGHT -->
+            <div class="col-lg-6">
+
+                <div class="card border-0 shadow-lg rounded-5 overflow-hidden">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop"
+                        class="img-fluid"
+                        style="height: 500px; object-fit: cover;"
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- STATS -->
+<section class="py-5">
+
+    <div class="container">
+
+        <div class="row g-4">
+
+            <!-- CUSTOMERS -->
+            <div class="col-lg-3 col-md-6">
+
+                <div class="card border-0 shadow-sm rounded-5 text-center h-100">
+
+                    <div class="card-body p-5">
+
+                        <i class="bi bi-people-fill display-3 text-primary"></i>
+
+                        <h2 class="fw-bold mt-4">
+
+                            {{ total_customers }}+
+
+                        </h2>
+
+                        <p class="text-muted mb-0">
+
+                            Happy Customers
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- PROVIDERS -->
+            <div class="col-lg-3 col-md-6">
+
+                <div class="card border-0 shadow-sm rounded-5 text-center h-100">
+
+                    <div class="card-body p-5">
+
+                        <i class="bi bi-person-workspace display-3 text-success"></i>
+
+                        <h2 class="fw-bold mt-4">
+
+                            {{ total_providers }}+
+
+                        </h2>
+
+                        <p class="text-muted mb-0">
+
+                            Verified Providers
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- BOOKINGS -->
+            <div class="col-lg-3 col-md-6">
+
+                <div class="card border-0 shadow-sm rounded-5 text-center h-100">
+
+                    <div class="card-body p-5">
+
+                        <i class="bi bi-calendar-check-fill display-3 text-warning"></i>
+
+                        <h2 class="fw-bold mt-4">
+
+                            {{ total_bookings }}+
+
+                        </h2>
+
+                        <p class="text-muted mb-0">
+
+                            Completed Bookings
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- SERVICES -->
+            <div class="col-lg-3 col-md-6">
+
+                <div class="card border-0 shadow-sm rounded-5 text-center h-100">
+
+                    <div class="card-body p-5">
+
+                        <i class="bi bi-tools display-3 text-danger"></i>
+
+                        <h2 class="fw-bold mt-4">
+
+                            {{ total_services }}+
+
+                        </h2>
+
+                        <p class="text-muted mb-0">
+
+                            Services
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- WHY CHOOSE US -->
+<section class="py-5 bg-body-tertiary">
+
+    <div class="container">
+
+        <!-- HEADER -->
+        <div class="text-center mb-5">
+
+            <h2 class="fw-bold display-5">
+
+                Why Choose Us
+
+            </h2>
+
+            <p class="text-muted fs-5">
+
+                We provide reliable and secure home services
+
+            </p>
+
+        </div>
+
+        <!-- FEATURES -->
+        <div class="row g-4">
+
+            <!-- CARD -->
+            <div class="col-lg-4">
+
+                <div class="card border-0 shadow-sm rounded-5 h-100">
+
+                    <div class="card-body p-5 text-center">
+
+                        <div class="mb-4">
+
+                            <i class="bi bi-shield-check display-2 text-primary"></i>
+
+                        </div>
+
+                        <h4 class="fw-bold mb-3">
+
+                            Verified Professionals
+
+                        </h4>
+
+                        <p class="text-muted">
+
+                            All providers are verified and
+                            background checked for safety.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- CARD -->
+            <div class="col-lg-4">
+
+                <div class="card border-0 shadow-sm rounded-5 h-100">
+
+                    <div class="card-body p-5 text-center">
+
+                        <div class="mb-4">
+
+                            <i class="bi bi-lightning-charge-fill display-2 text-warning"></i>
+
+                        </div>
+
+                        <h4 class="fw-bold mb-3">
+
+                            Fast Booking
+
+                        </h4>
+
+                        <p class="text-muted">
+
+                            Book professional services instantly
+                            with a smooth experience.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- CARD -->
+            <div class="col-lg-4">
+
+                <div class="card border-0 shadow-sm rounded-5 h-100">
+
+                    <div class="card-body p-5 text-center">
+
+                        <div class="mb-4">
+
+                            <i class="bi bi-star-fill display-2 text-danger"></i>
+
+                        </div>
+
+                        <h4 class="fw-bold mb-3">
+
+                            Top Rated Service
+
+                        </h4>
+
+                        <p class="text-muted">
+
+                            Trusted by thousands of customers
+                            with excellent ratings.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- TEAM -->
+<section class="py-5">
+
+    <div class="container">
+
+        <!-- HEADER -->
+        <div class="text-center mb-5">
+
+            <h2 class="fw-bold display-5">
+
+                Meet Our Team
+
+            </h2>
+
+            <p class="text-muted fs-5">
+
+                Passionate people behind ServiceHub
+
+            </p>
+
+        </div>
+
+        <!-- TEAM GRID -->
+        <div class="row g-4 justify-content-center">
+
+            <!-- MEMBER -->
+            <div class="col-lg-3 col-md-6">
+
+                <div class="card border-0 shadow-sm rounded-5 overflow-hidden text-center h-100">
+
+                    <img
+                        src="https://randomuser.me/api/portraits/men/32.jpg"
+                        class="card-img-top"
+                        style="height: 280px; object-fit: cover;"
+                    >
+
+                    <div class="card-body p-4">
+
+                        <h5 class="fw-bold">
+
+                            John Smith
+
+                        </h5>
+
+                        <p class="text-muted mb-3">
+
+                            Founder & CEO
+
+                        </p>
+
+                        <div class="d-flex justify-content-center gap-3">
+
+                            <i class="bi bi-facebook"></i>
+                            <i class="bi bi-instagram"></i>
+                            <i class="bi bi-linkedin"></i>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- MEMBER -->
+            <div class="col-lg-3 col-md-6">
+
+                <div class="card border-0 shadow-sm rounded-5 overflow-hidden text-center h-100">
+
+                    <img
+                        src="https://randomuser.me/api/portraits/women/44.jpg"
+                        class="card-img-top"
+                        style="height: 280px; object-fit: cover;"
+                    >
+
+                    <div class="card-body p-4">
+
+                        <h5 class="fw-bold">
+
+                            Sarah Wilson
+
+                        </h5>
+
+                        <p class="text-muted mb-3">
+
+                            Operations Manager
+
+                        </p>
+
+                        <div class="d-flex justify-content-center gap-3">
+
+                            <i class="bi bi-facebook"></i>
+                            <i class="bi bi-instagram"></i>
+                            <i class="bi bi-linkedin"></i>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- MEMBER -->
+            <div class="col-lg-3 col-md-6">
+
+                <div class="card border-0 shadow-sm rounded-5 overflow-hidden text-center h-100">
+
+                    <img
+                        src="https://randomuser.me/api/portraits/men/55.jpg"
+                        class="card-img-top"
+                        style="height: 280px; object-fit: cover;"
+                    >
+
+                    <div class="card-body p-4">
+
+                        <h5 class="fw-bold">
+
+                            David Miller
+
+                        </h5>
+
+                        <p class="text-muted mb-3">
+
+                            Technical Lead
+
+                        </p>
+
+                        <div class="d-flex justify-content-center gap-3">
+
+                            <i class="bi bi-facebook"></i>
+                            <i class="bi bi-instagram"></i>
+                            <i class="bi bi-linkedin"></i>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

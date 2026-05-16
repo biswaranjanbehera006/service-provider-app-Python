@@ -119,7 +119,7 @@ DATABASES = {
 
     'default': dj_database_url.parse(
         config('DATABASE_URL'),
-        conn_max_age=600,
+        conn_max_age=0,
         ssl_require=True
     )
 
@@ -127,6 +127,7 @@ DATABASES = {
 
 DATABASES['default']['OPTIONS'] = {
     'sslmode': 'require',
+    'connect_timeout': 30,
 }
 
 
@@ -256,3 +257,16 @@ EMAIL_HOST_PASSWORD = config(
 # 🔥 DEFAULT AUTO FIELD
 # =========================
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+
+
+#payement gateway
+RAZORPAY_KEY_ID = config(
+    'RAZORPAY_KEY_ID'
+)
+
+RAZORPAY_KEY_SECRET = config(
+    'RAZORPAY_KEY_SECRET'
+)

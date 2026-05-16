@@ -2,94 +2,602 @@
 
 {% block content %}
 
-<div class="container-fluid mt-4 px-4">
+<div class="container-fluid py-4 px-lg-4 px-3 bg-light min-vh-100">
 
-    <!-- 🔷 HERO HEADER -->
-    <div class="dashboard-header mb-4 p-4 text-white">
-        <div class="d-flex justify-content-between align-items-center flex-wrap">
-            <div>
-                <h2 class="fw-bold mb-1">Admin Dashboard</h2>
-                <p class="mb-0 opacity-75">Manage your platform efficiently 🚀</p>
-            </div>
-            <div class="mt-3 mt-md-0">
-                <a href="/admin-panel/dashboard/" class="btn btn-light btn-sm me-2">🔄 Refresh</a>
-                <a href="/" class="btn btn-outline-light btn-sm">🏠 Home</a>
-            </div>
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+
+        <div>
+
+            <h1 class="fw-bold display-6 mb-1">
+
+                Admin Dashboard 🚀
+
+            </h1>
+
+            <p class="text-muted mb-0">
+
+                Welcome back! Manage your platform professionally.
+
+            </p>
+
         </div>
+
+        <div class="d-flex gap-2 flex-wrap">
+
+            <a
+                href="/admin-panel/dashboard/"
+                class="btn btn-dark rounded-pill px-4"
+            >
+
+                <i class="bi bi-arrow-clockwise"></i>
+
+                Refresh
+
+            </a>
+
+            <a
+                href="/"
+                class="btn btn-outline-dark rounded-pill px-4"
+            >
+
+                <i class="bi bi-house-door-fill"></i>
+
+                Home
+
+            </a>
+
+        </div>
+
     </div>
 
-    <!-- 🔷 STATS CARDS -->
-    <div class="row g-4">
+    <!-- STATS -->
+    <div class="row g-4 mb-4">
 
         <!-- USERS -->
-        <div class="col-lg-3 col-md-6">
-            <div class="stat-card">
-                <div class="icon bg-primary">👤</div>
-                <h6>Total Users</h6>
-                <h2>{{ total_users }}</h2>
+        <div class="col-xl-3 col-lg-6 col-md-6">
+
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+
+                <div class="card-body p-4">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+
+                            <small class="text-muted fw-semibold">
+
+                                Total Users
+
+                            </small>
+
+                            <h2 class="fw-bold mt-2 mb-1">
+
+                                {{ total_users }}
+
+                            </h2>
+
+                            <small class="text-success fw-semibold">
+
+                                <i class="bi bi-arrow-up"></i>
+
+                                12% this month
+
+                            </small>
+
+                        </div>
+
+                        <div class="bg-primary bg-opacity-10 rounded-circle p-3">
+
+                            <i class="bi bi-people-fill fs-2 text-primary"></i>
+
+                        </div>
+
+                    </div>
+
+                    <div class="mt-3">
+
+                        <span class="badge bg-primary">
+
+                            Active Users
+
+                        </span>
+
+                    </div>
+
+                </div>
+
             </div>
+
         </div>
 
         <!-- BOOKINGS -->
-        <div class="col-lg-3 col-md-6">
-            <div class="stat-card">
-                <div class="icon bg-success">📦</div>
-                <h6>Bookings</h6>
-                <h2>{{ total_bookings }}</h2>
+        <div class="col-xl-3 col-lg-6 col-md-6">
+
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+
+                <div class="card-body p-4">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+
+                            <small class="text-muted fw-semibold">
+
+                                Total Bookings
+
+                            </small>
+
+                            <h2 class="fw-bold mt-2 mb-1">
+
+                                {{ total_bookings }}
+
+                            </h2>
+
+                            <small class="text-success fw-semibold">
+
+                                <i class="bi bi-arrow-up"></i>
+
+                                18% growth
+
+                            </small>
+
+                        </div>
+
+                        <div class="bg-success bg-opacity-10 rounded-circle p-3">
+
+                            <i class="bi bi-calendar-check-fill fs-2 text-success"></i>
+
+                        </div>
+
+                    </div>
+
+                    <div class="mt-3">
+
+                        <span class="badge bg-success">
+
+                            Service Orders
+
+                        </span>
+
+                    </div>
+
+                </div>
+
             </div>
+
         </div>
 
         <!-- PROVIDERS -->
-        <div class="col-lg-3 col-md-6">
-            <div class="stat-card">
-                <div class="icon bg-info">🛠</div>
-                <h6>Providers</h6>
-                <h2>{{ total_providers }}</h2>
+        <div class="col-xl-3 col-lg-6 col-md-6">
+
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+
+                <div class="card-body p-4">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+
+                            <small class="text-muted fw-semibold">
+
+                                Providers
+
+                            </small>
+
+                            <h2 class="fw-bold mt-2 mb-1">
+
+                                {{ total_providers }}
+
+                            </h2>
+
+                            <small class="text-success fw-semibold">
+
+                                <i class="bi bi-arrow-up"></i>
+
+                                Verified experts
+
+                            </small>
+
+                        </div>
+
+                        <div class="bg-warning bg-opacity-10 rounded-circle p-3">
+
+                            <i class="bi bi-tools fs-2 text-warning"></i>
+
+                        </div>
+
+                    </div>
+
+                    <div class="mt-3">
+
+                        <span class="badge bg-warning text-dark">
+
+                            Verified Experts
+
+                        </span>
+
+                    </div>
+
+                </div>
+
             </div>
+
         </div>
 
         <!-- PENDING -->
-        <div class="col-lg-3 col-md-6">
-            <div class="stat-card">
-                <div class="icon bg-warning">⏳</div>
-                <h6>Pending Requests</h6>
-                <h2>{{ pending_providers }}</h2>
+        <div class="col-xl-3 col-lg-6 col-md-6">
+
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+
+                <div class="card-body p-4">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+
+                            <small class="text-muted fw-semibold">
+
+                                Pending Requests
+
+                            </small>
+
+                            <h2 class="fw-bold mt-2 mb-1">
+
+                                {{ pending_providers }}
+
+                            </h2>
+
+                            <small class="text-danger fw-semibold">
+
+                                <i class="bi bi-exclamation-circle"></i>
+
+                                Needs approval
+
+                            </small>
+
+                        </div>
+
+                        <div class="bg-danger bg-opacity-10 rounded-circle p-3">
+
+                            <i class="bi bi-hourglass-split fs-2 text-danger"></i>
+
+                        </div>
+
+                    </div>
+
+                    <div class="mt-3">
+
+                        <span class="badge bg-danger">
+
+                            Pending Review
+
+                        </span>
+
+                    </div>
+
+                </div>
+
             </div>
+
         </div>
 
     </div>
 
-    <!-- 🔷 QUICK ACTIONS -->
-    <div class="mt-5">
+    <!-- ANALYTICS -->
+    <div class="row g-4 mb-4">
 
-        <div class="card action-card p-4">
+        <!-- CHART -->
+        <div class="col-xl-8">
 
-            <h5 class="fw-bold mb-4">Quick Actions</h5>
+            <div class="card border-0 shadow-sm rounded-4 h-100">
 
-            <div class="row g-3">
+                <div class="card-body p-4">
 
-                <div class="col-md-3 col-6">
-                    <a href="/admin-panel/provider-requests/" class="action-btn dark">
-                        📋 Provider Requests
-                    </a>
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+
+                        <div>
+
+                            <h5 class="fw-bold mb-1">
+
+                                Platform Analytics
+
+                            </h5>
+
+                            <small class="text-muted">
+
+                                Weekly booking analytics overview
+
+                            </small>
+
+                        </div>
+
+                        <span class="badge bg-primary px-3 py-2">
+
+                            Live Analytics
+
+                        </span>
+
+                    </div>
+
+                    <!-- CHART -->
+                    <div class="bg-light rounded-4 p-3">
+
+                        <canvas id="bookingChart" height="120"></canvas>
+
+                    </div>
+
+                    <!-- EXTRA ANALYTICS -->
+                    <div class="row g-3 mt-3">
+
+                        <div class="col-md-4">
+
+                            <div class="bg-primary text-white rounded-4 p-3">
+
+                                <small>Total Revenue</small>
+
+                                <h3 class="fw-bold">₹{{ total_revenue }}</h3>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <div class="bg-success text-white rounded-4 p-3">
+
+                                <small>Completed Jobs</small>
+
+                                <h3 class="fw-bold">{{ completed_jobs }}</h3>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <div class="bg-dark text-white rounded-4 p-3">
+
+                                <small>Active Providers</small>
+
+                                <h3 class="fw-bold">{{ active_providers }}</h3>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
                 </div>
 
-                <div class="col-md-3 col-6">
-                    <a href="/admin-panel/users/" class="action-btn blue">
-                        👤 Users
-                    </a>
+            </div>
+
+        </div>
+
+        <!-- RECENT ACTIVITY -->
+        <div class="col-xl-4">
+
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+
+                <div class="card-body p-4">
+
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+
+                        <h5 class="fw-bold mb-0">
+
+                            Recent Activity
+
+                        </h5>
+
+                        <span class="badge bg-success">
+
+                            Live
+
+                        </span>
+
+                    </div>
+
+                    <!-- ITEM -->
+                    <div class="d-flex align-items-start gap-3 mb-4">
+
+                        <div class="bg-primary bg-opacity-10 rounded-circle p-2">
+
+                            <i class="bi bi-person-plus-fill text-primary"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h6 class="fw-semibold mb-1">
+
+                                New User Registered
+
+                            </h6>
+
+                            <small class="text-muted">
+
+                                Customer joined the platform
+
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                    <!-- ITEM -->
+                    <div class="d-flex align-items-start gap-3 mb-4">
+
+                        <div class="bg-success bg-opacity-10 rounded-circle p-2">
+
+                            <i class="bi bi-calendar-check-fill text-success"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h6 class="fw-semibold mb-1">
+
+                                Booking Completed
+
+                            </h6>
+
+                            <small class="text-muted">
+
+                                Service completed successfully
+
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                    <!-- ITEM -->
+                    <div class="d-flex align-items-start gap-3 mb-4">
+
+                        <div class="bg-warning bg-opacity-10 rounded-circle p-2">
+
+                            <i class="bi bi-tools text-warning"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h6 class="fw-semibold mb-1">
+
+                                Provider Joined
+
+                            </h6>
+
+                            <small class="text-muted">
+
+                                New provider application submitted
+
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                    <!-- ITEM -->
+                    <div class="d-flex align-items-start gap-3">
+
+                        <div class="bg-danger bg-opacity-10 rounded-circle p-2">
+
+                            <i class="bi bi-star-fill text-danger"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h6 class="fw-semibold mb-1">
+
+                                New Review Added
+
+                            </h6>
+
+                            <small class="text-muted">
+
+                                Customer submitted feedback
+
+                            </small>
+
+                        </div>
+
+                    </div>
+
                 </div>
 
-                <div class="col-md-3 col-6">
-                    <a href="/admin-panel/providers/" class="action-btn green">
-                        👨‍🔧 Providers
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- QUICK ACTIONS -->
+    <div class="card border-0 shadow-sm rounded-4">
+
+        <div class="card-body p-4">
+
+            <div class="mb-4">
+
+                <h5 class="fw-bold mb-1">
+
+                    Quick Actions
+
+                </h5>
+
+                <small class="text-muted">
+
+                    Manage your platform quickly
+
+                </small>
+
+            </div>
+
+            <div class="row g-4">
+
+                <!-- USERS -->
+                <div class="col-xl-3 col-lg-6 col-md-6">
+
+                    <a
+                        href="/admin-panel/users/"
+                        class="btn btn-light border shadow-sm w-100 py-4 rounded-4"
+                    >
+
+                        <i class="bi bi-people-fill display-6 d-block mb-3"></i>
+
+                        Manage Users
+
                     </a>
+
                 </div>
 
-                <div class="col-md-3 col-6">
-                    <a href="/admin-panel/services/" class="action-btn orange">
-                        🛠 Services
+                <!-- PROVIDERS -->
+                <div class="col-xl-3 col-lg-6 col-md-6">
+
+                    <a
+                        href="/admin-panel/providers/"
+                        class="btn btn-light border shadow-sm w-100 py-4 rounded-4"
+                    >
+
+                        <i class="bi bi-tools display-6 d-block mb-3 text-primary"></i>
+
+                        Manage Providers
+
                     </a>
+
+                </div>
+
+                <!-- SERVICES -->
+                <div class="col-xl-3 col-lg-6 col-md-6">
+
+                    <a
+                        href="/admin-panel/services/"
+                        class="btn btn-light border shadow-sm w-100 py-4 rounded-4"
+                    >
+
+                        <i class="bi bi-grid-fill display-6 d-block mb-3 text-success"></i>
+
+                        Manage Services
+
+                    </a>
+
+                </div>
+
+                <!-- REQUESTS -->
+                <div class="col-xl-3 col-lg-6 col-md-6">
+
+                    <a
+                        href="/admin-panel/provider-requests/"
+                        class="btn btn-light border shadow-sm w-100 py-4 rounded-4"
+                    >
+
+                        <i class="bi bi-person-check-fill display-6 d-block mb-3 text-warning"></i>
+
+                        Provider Requests
+
+                    </a>
+
                 </div>
 
             </div>
@@ -100,90 +608,56 @@
 
 </div>
 
-<!-- 🔥 PROFESSIONAL STYLING -->
-<style>
+<!-- CHART JS -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    /* HEADER */
-    .dashboard-header {
-        border-radius: 16px;
-        background: linear-gradient(135deg, #1d3557, #457b9d);
-        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    }
+<script>
 
-    /* STAT CARDS */
-    .stat-card {
-        background: white;
-        border-radius: 16px;
-        padding: 25px;
-        text-align: center;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-        transition: 0.3s ease;
-    }
+const ctx = document.getElementById('bookingChart');
 
-    .stat-card:hover {
-        transform: translateY(-6px);
-        box-shadow: 0 12px 30px rgba(0,0,0,0.15);
-    }
+new Chart(ctx, {
 
-    .stat-card h6 {
-        color: #6c757d;
-        margin-top: 10px;
-    }
+    type: 'line',
 
-    .stat-card h2 {
-        font-weight: bold;
-        margin-top: 5px;
-    }
+    data: {
 
-    /* ICON */
-    .icon {
-        width: 50px;
-        height: 50px;
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 22px;
-        color: white;
-        margin: auto;
-    }
+        labels: [
+            'Mon',
+            'Tue',
+            'Wed',
+            'Thu',
+            'Fri',
+            'Sat',
+            'Sun'
+        ],
 
-    /* ACTION CARD */
-    .action-card {
-        border-radius: 16px;
-        border: none;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-    }
+        datasets: [{
 
-    /* ACTION BUTTONS */
-    .action-btn {
-        display: block;
-        padding: 14px;
-        border-radius: 10px;
-        text-align: center;
-        font-weight: 500;
-        text-decoration: none;
-        color: white;
-        transition: 0.3s;
-    }
+            label: 'Bookings',
 
-    .action-btn:hover {
-        transform: scale(1.05);
-        opacity: 0.9;
-    }
+            data: [4, 7, 5, 12, 8, 15, 10],
 
-    .dark { background: #212529; }
-    .blue { background: #0d6efd; }
-    .green { background: #198754; }
-    .orange { background: #fd7e14; }
+            borderWidth: 3,
 
-    /* RESPONSIVE */
-    @media (max-width: 768px) {
-        .dashboard-header {
-            text-align: center;
+            tension: 0.4,
+
+            fill: true
+        }]
+    },
+
+    options: {
+
+        responsive: true,
+
+        plugins: {
+
+            legend: {
+                display: true
+            }
         }
     }
+});
 
-</style>
+</script>
 
 {% endblock %}

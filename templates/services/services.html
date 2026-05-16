@@ -1,0 +1,206 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- HERO -->
+<section class="py-5 bg-body-tertiary">
+
+    <div class="container text-center">
+
+        <span class="badge bg-dark rounded-pill px-4 py-3 fs-6 mb-4">
+
+            Our Professional Services
+
+        </span>
+
+        <h1 class="display-3 fw-bold mb-4">
+
+            Explore Premium Home Services
+
+        </h1>
+
+        <p class="fs-5 text-secondary mx-auto" style="max-width: 800px;">
+
+            Find trusted professionals for cleaning,
+            plumbing, AC repair, electrician,
+            salon, painting and more.
+
+        </p>
+
+    </div>
+
+</section>
+
+<!-- SERVICES -->
+<section class="py-5">
+
+    <div class="container">
+
+        <!-- HEADER -->
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-5">
+
+            <div>
+
+                <h2 class="fw-bold mb-1">
+
+                    Available Services
+
+                </h2>
+
+                <p class="text-muted mb-0">
+
+                    Trusted services at affordable prices
+
+                </p>
+
+            </div>
+
+            <span class="badge bg-primary rounded-pill px-4 py-3 fs-6">
+
+                {{ services|length }} Services
+
+            </span>
+
+        </div>
+
+        <!-- GRID -->
+        <div class="row g-4">
+
+            {% for service in services %}
+
+            <div class="col-xl-4 col-md-6">
+
+                <div class="card border-0 shadow-sm rounded-5 overflow-hidden h-100">
+
+                    <!-- IMAGE -->
+                    {% if service.image %}
+
+                        <img
+                            src="{{ service.image.url }}"
+                            class="card-img-top"
+                            style="height: 260px; object-fit: cover;"
+                        >
+
+                    {% else %}
+
+                        <img
+                            src="https://cdn-icons-png.flaticon.com/512/2922/2922510.png"
+                            class="card-img-top"
+                            style="height: 260px; object-fit: cover;"
+                        >
+
+                    {% endif %}
+
+                    <!-- BODY -->
+                    <div class="card-body p-4 d-flex flex-column">
+
+                        <!-- CATEGORY -->
+                        <div class="d-flex justify-content-between mb-3">
+
+                            <span class="badge bg-primary rounded-pill px-3 py-2">
+
+                                {{ service.category.name }}
+
+                            </span>
+
+                            <span class="badge bg-success rounded-pill px-3 py-2">
+
+                                Verified
+
+                            </span>
+
+                        </div>
+
+                        <!-- TITLE -->
+                        <h3 class="fw-bold mb-3">
+
+                            {{ service.name }}
+
+                        </h3>
+
+                        <!-- RATING -->
+                        <div class="text-warning mb-3">
+
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-half"></i>
+
+                            <span class="text-muted ms-2">
+
+                                4.8 Rating
+
+                            </span>
+
+                        </div>
+
+                        <!-- DESC -->
+                        <p class="text-muted flex-grow-1">
+
+                            {{ service.description|truncatewords:18 }}
+
+                        </p>
+
+                        <!-- PRICE -->
+                        <div class="d-flex justify-content-between align-items-center mt-4">
+
+                            <div>
+
+                                <h4 class="fw-bold text-success mb-0">
+
+                                    ₹{{ service.price }}
+
+                                </h4>
+
+                                <small class="text-muted">
+
+                                    Starting Price
+
+                                </small>
+
+                            </div>
+
+                            <i class="bi bi-patch-check-fill text-success fs-2"></i>
+
+                        </div>
+
+                        <!-- BUTTON -->
+                        <a
+                            href="/booking/book/?service={{ service.id }}"
+                            class="btn btn-dark btn-lg rounded-pill mt-4"
+                        >
+
+                            <i class="bi bi-calendar-check me-2"></i>
+
+                            Book Now
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% empty %}
+
+            <div class="col-12">
+
+                <div class="alert alert-warning text-center rounded-4 py-4">
+
+                    No services available right now.
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

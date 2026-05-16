@@ -11,44 +11,73 @@ from django.conf.urls.static import static
 
 urlpatterns = [
 
-    # =========================
-    # DJANGO ADMIN
-    # =========================
-    path('admin/', admin.site.urls),
+    # =========================================
+    # 🔐 DJANGO ADMIN
+    # =========================================
+    path(
+        'admin/',
+        admin.site.urls
+    ),
 
-    # =========================
-    # MAIN APP
-    # =========================
-    path('', include('services.urls')),
+    # =========================================
+    # 🏠 MAIN SERVICES APP
+    # =========================================
+    path(
+        '',
+        include('services.urls')
+    ),
 
-    # =========================
-    # BOOKINGS
-    # =========================
-    path('booking/', include('bookings.urls')),
+    # =========================================
+    # 📦 BOOKINGS + PAYMENT
+    # =========================================
+    path(
+        'booking/',
+        include('bookings.urls')
+    ),
 
-    # =========================
-    # USERS
-    # =========================
-    path('users/', include('users.urls')),
+    # =========================================
+    # 👤 USERS
+    # =========================================
+    path(
+        'users/',
+        include('users.urls')
+    ),
 
-    # =========================
-    # PROVIDERS
-    # =========================
-    path('provider/', include('providers.urls')),
+    # =========================================
+    # 👨‍🔧 PROVIDERS
+    # =========================================
+    path(
+        'provider/',
+        include('providers.urls')
+    ),
 
-    # =========================
-    # ADMIN PANEL
-    # =========================
-    path('admin-panel/', include('admin_panel.urls')),
+    # =========================================
+    # 🛠 ADMIN PANEL
+    # =========================================
+    path(
+        'admin-panel/',
+        include('admin_panel.urls')
+    ),
 ]
 
 
-# =========================
-# MEDIA FILES
-# =========================
+# =========================================
+# 📂 MEDIA FILES
+# =========================================
 if settings.DEBUG:
 
     urlpatterns += static(
         settings.MEDIA_URL,
         document_root=settings.MEDIA_ROOT
+    )
+
+
+# =========================================
+# 📂 STATIC FILES
+# =========================================
+if settings.DEBUG:
+
+    urlpatterns += static(
+        settings.STATIC_URL,
+        document_root=settings.STATIC_ROOT
     )

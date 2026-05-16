@@ -1,0 +1,209 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-center flex-wrap mb-5">
+
+        <div>
+
+            <h2 class="fw-bold mb-1">
+
+                ⭐ Provider Reviews
+
+            </h2>
+
+            <p class="text-muted mb-0">
+
+                Customer feedback for
+                <span class="fw-semibold">
+
+                    {{ provider.user.username }}
+
+                </span>
+
+            </p>
+
+        </div>
+
+        <a
+            href="{% url 'manage_providers' %}"
+            class="btn btn-dark mt-3 mt-md-0"
+        >
+
+            <i class="bi bi-arrow-left"></i>
+
+            Back
+
+        </a>
+
+    </div>
+
+    <!-- PROVIDER INFO -->
+    <div class="card border-0 shadow-sm rounded-4 mb-5">
+
+        <div class="card-body p-4">
+
+            <div class="row align-items-center">
+
+                <div class="col-lg-8">
+
+                    <h3 class="fw-bold mb-2">
+
+                        {{ provider.user.username }}
+
+                    </h3>
+
+                    <p class="text-muted mb-2">
+
+                        {{ provider.user.email }}
+
+                    </p>
+
+                    <div class="d-flex flex-wrap gap-2 mt-3">
+
+                        {% for service in provider.services.all %}
+
+                            <span class="badge bg-primary px-3 py-2">
+
+                                {{ service.name }}
+
+                            </span>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+                <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
+
+                    <h1 class="fw-bold text-warning mb-0">
+
+                        ⭐ {{ provider.rating|default:"0" }}
+
+                    </h1>
+
+                    <small class="text-muted">
+
+                        Average Rating
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- REVIEWS -->
+    <div class="row g-4">
+
+        {% for booking in reviews %}
+
+        <div class="col-lg-6">
+
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+
+                <div class="card-body p-4">
+
+                    <!-- TOP -->
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+
+                        <div>
+
+                            <h5 class="fw-bold mb-1">
+
+                                {{ booking.user.username }}
+
+                            </h5>
+
+                            <small class="text-muted">
+
+                                {{ booking.created_at|date:"d M Y" }}
+
+                            </small>
+
+                        </div>
+
+                        <span class="badge bg-warning text-dark px-3 py-2">
+
+                            ⭐ {{ booking.rating }}/5
+
+                        </span>
+
+                    </div>
+
+                    <!-- SERVICE -->
+                    <div class="mb-3">
+
+                        <span class="badge bg-info text-dark px-3 py-2">
+
+                            {{ booking.service.name }}
+
+                        </span>
+
+                    </div>
+
+                    <!-- REVIEW -->
+                    <div class="bg-light rounded-3 p-3">
+
+                        {% if booking.review %}
+
+                            <p class="mb-0">
+
+                                "{{ booking.review }}"
+
+                            </p>
+
+                        {% else %}
+
+                            <span class="text-muted">
+
+                                No review message
+
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="col-12">
+
+            <div class="alert alert-warning text-center py-5 rounded-4">
+
+                <h4 class="fw-bold">
+
+                    No Reviews Yet
+
+                </h4>
+
+                <p class="mb-0">
+
+                    This provider has not received any ratings.
+
+                </p>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

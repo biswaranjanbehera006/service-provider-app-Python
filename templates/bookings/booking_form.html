@@ -2,12 +2,399 @@
 
 {% block content %}
 
-<h2>Book Service</h2>
+<div class="container py-5">
 
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button class="btn btn-primary">Book Now</button>
-</form>
+    <!-- HEADER -->
+    <div class="text-center mb-5">
+
+        <span class="badge bg-primary px-4 py-2 mb-3 fs-6">
+
+            Service Booking
+
+        </span>
+
+        <h1 class="fw-bold display-5">
+
+            Book Your Service 🚀
+
+        </h1>
+
+        <p class="text-muted fs-5">
+
+            Fill in the details below to confirm your booking
+
+        </p>
+
+    </div>
+
+    <!-- ERROR MESSAGE -->
+    {% if form.errors %}
+
+    <div class="row justify-content-center mb-4">
+
+        <div class="col-lg-8">
+
+            <div class="alert alert-danger alert-dismissible fade show shadow-sm">
+
+                <strong>
+
+                    Please fix these errors:
+
+                </strong>
+
+                <ul class="mb-0 mt-2">
+
+                    {% for field in form %}
+
+                        {% for error in field.errors %}
+
+                            <li>
+
+                                <strong>{{ field.label }}</strong> :
+                                {{ error }}
+
+                            </li>
+
+                        {% endfor %}
+
+                    {% endfor %}
+
+                </ul>
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"
+                ></button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+    <div class="row g-4 justify-content-center">
+
+        <!-- FORM -->
+        <div class="col-lg-7">
+
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+
+                <!-- TOP -->
+                <div class="bg-dark text-white p-4">
+
+                    <h3 class="fw-bold mb-1">
+
+                        Booking Details
+
+                    </h3>
+
+                    <p class="mb-0 text-light">
+
+                        Complete your booking information
+
+                    </p>
+
+                </div>
+
+                <!-- BODY -->
+                <div class="card-body p-4 p-lg-5">
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+                        <!-- SERVICE -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+
+                                Service
+
+                            </label>
+
+                            {{ form.service }}
+
+                        </div>
+
+                        <!-- DATE -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+
+                                Booking Date
+
+                            </label>
+
+                            <input
+                                type="date"
+                                name="date"
+                                id="booking-date"
+                                class="form-control form-control-lg"
+                                required
+                            >
+
+                        </div>
+
+                        <!-- TIME -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+
+                                Booking Time
+
+                            </label>
+
+                            <input
+                                type="time"
+                                name="time"
+                                id="booking-time"
+                                class="form-control form-control-lg"
+                                required
+                            >
+
+                            <small class="text-muted">
+
+                                Booking time must be at least 1 hour from current time
+
+                            </small>
+
+                        </div>
+
+                        <!-- PHONE -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+
+                                Phone Number
+
+                            </label>
+
+                            {{ form.phone }}
+
+                        </div>
+
+                        <!-- ADDRESS -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+
+                                Address
+
+                            </label>
+
+                            {{ form.address }}
+
+                        </div>
+
+                        <!-- BUTTON -->
+                        <button
+                            type="submit"
+                            class="btn btn-primary btn-lg w-100 py-3 fw-bold shadow-sm"
+                        >
+
+                            <i class="bi bi-calendar-check-fill"></i>
+
+                            Confirm Booking
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- SIDE INFO -->
+        <div class="col-lg-4">
+
+            <!-- HELP CARD -->
+            <div class="card border-0 shadow-lg rounded-4 mb-4">
+
+                <div class="card-body p-4 text-center">
+
+                    <i class="bi bi-shield-check text-success display-3"></i>
+
+                    <h4 class="fw-bold mt-3">
+
+                        Safe & Secure Booking
+
+                    </h4>
+
+                    <p class="text-muted mt-3">
+
+                        All providers are verified for
+                        quality and trusted services.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- TIPS -->
+            <div class="card border-0 shadow-lg rounded-4">
+
+                <div class="card-body p-4">
+
+                    <h5 class="fw-bold mb-4">
+
+                        Booking Tips 💡
+
+                    </h5>
+
+                    <ul class="list-group list-group-flush">
+
+                        <li class="list-group-item">
+
+                            Choose correct booking date.
+
+                        </li>
+
+                        <li class="list-group-item">
+
+                            Enter complete address.
+
+                        </li>
+
+                        <li class="list-group-item">
+
+                            Keep your phone active.
+
+                        </li>
+
+                        <li class="list-group-item">
+
+                            Providers may contact you.
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ========================================= -->
+<!-- 🔥 DATE & TIME VALIDATION -->
+<!-- ========================================= -->
+
+<script>
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    function () {
+
+        const dateInput =
+        document.getElementById(
+            "booking-date"
+        );
+
+        const timeInput =
+        document.getElementById(
+            "booking-time"
+        );
+
+        // TODAY DATE
+        const today =
+        new Date();
+
+        // FORMAT DATE
+        const yyyy =
+        today.getFullYear();
+
+        const mm =
+        String(
+            today.getMonth() + 1
+        ).padStart(2, '0');
+
+        const dd =
+        String(
+            today.getDate()
+        ).padStart(2, '0');
+
+        const minDate =
+        `${yyyy}-${mm}-${dd}`;
+
+        // DISABLE PREVIOUS DATE
+        dateInput.min =
+        minDate;
+
+        // DEFAULT TODAY
+        dateInput.value =
+        minDate;
+
+        // TIME FUNCTION
+        function updateMinTime() {
+
+            const selectedDate =
+            dateInput.value;
+
+            const currentDate =
+            minDate;
+
+            // IF TODAY
+            if (
+                selectedDate === currentDate
+            ) {
+
+                const now =
+                new Date();
+
+                // ADD 1 HOUR
+                now.setHours(
+                    now.getHours() + 1
+                );
+
+                const hours =
+                String(
+                    now.getHours()
+                ).padStart(2, '0');
+
+                const minutes =
+                String(
+                    now.getMinutes()
+                ).padStart(2, '0');
+
+                const minTime =
+                `${hours}:${minutes}`;
+
+                timeInput.min =
+                minTime;
+
+            } else {
+
+                timeInput.min =
+                "00:00";
+            }
+        }
+
+        // RUN
+        updateMinTime();
+
+        // ON DATE CHANGE
+        dateInput.addEventListener(
+
+            "change",
+
+            updateMinTime
+        );
+    }
+);
+
+</script>
 
 {% endblock %}

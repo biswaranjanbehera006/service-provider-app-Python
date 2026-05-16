@@ -8,7 +8,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 
 from .forms import RegisterForm
-from .models import EmailOTP
+from .models import EmailOTP, User
 from providers.models import ProviderApplication
 from bookings.models import Booking
 
@@ -378,3 +378,187 @@ def profile_view(request):
         return redirect('profile')
 
     return render(request, 'users/profile.html')
+
+
+from django.shortcuts import render
+
+
+# =========================
+# ✅ FORGOT PASSWORD
+# =========================
+def forgot_password(request):
+
+    if request.method == 'POST':
+
+        email = request.POST.get('email')
+
+        # 🔥 GET FIRST USER WITH EMAIL
+        user = User.objects.filter(email=email).first()
+
+        # ❌ EMAIL NOT FOUND
+        if not user:
+
+            messages.error(
+                request,
+                "❌ Email not registered."
+            )
+
+            return redirect('forgot_password')
+
+        # 🔥 CREATE OTP
+        otp_obj = EmailOTP.objects.create(user=user)
+
+        otp_obj.generate_otp()
+
+        # 🔥 SAVE USER ID IN SESSION
+        request.session['reset_user_id'] = user.id
+
+        # 🔥 SEND OTP EMAIL
+        send_mail(
+            subject='Password Reset OTP',
+            message=f'''
+Hello {user.first_name},
+
+Your OTP for password reset is:
+
+{otp_obj.otp}
+
+Do not share this OTP with anyone.
+
+Service Platform Team
+            ''',
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[user.email],
+            fail_silently=False,
+        )
+
+        messages.success(
+            request,
+            "📧 OTP sent successfully."
+        )
+
+        return redirect('verify_reset_otp')
+
+    return render(
+        request,
+        'forgot_password.html'
+    )
+
+
+# =========================
+# ✅ VERIFY RESET OTP
+# =========================
+def verify_reset_otp(request):
+
+    user_id = request.session.get('reset_user_id')
+
+    # ❌ SESSION EXPIRED
+    if not user_id:
+
+        messages.error(
+            request,
+            "⚠️ Session expired."
+        )
+
+        return redirect('forgot_password')
+
+    # 🔥 GET USER
+    user = get_object_or_404(
+        User,
+        id=user_id
+    )
+
+    # 🔥 GET LATEST OTP
+    otp_obj = EmailOTP.objects.filter(
+        user=user
+    ).last()
+
+    if request.method == 'POST':
+
+        entered_otp = request.POST.get('otp')
+
+        # ✅ OTP MATCH
+        if otp_obj and otp_obj.otp == entered_otp:
+
+            messages.success(
+                request,
+                "✅ OTP verified successfully."
+            )
+
+            return redirect('reset_password')
+
+        # ❌ INVALID OTP
+        else:
+
+            messages.error(
+                request,
+                "❌ Invalid OTP."
+            )
+
+    return render(
+        request,
+        'users/verify.html'
+    )
+
+# =========================
+# ✅ RESET PASSWORD
+# =========================
+def reset_password(request):
+
+    user_id = request.session.get('reset_user_id')
+
+    # ❌ SESSION EXPIRED
+    if not user_id:
+
+        messages.error(
+            request,
+            "⚠️ Session expired."
+        )
+
+        return redirect('forgot_password')
+
+    # 🔥 GET USER
+    user = get_object_or_404(
+        User,
+        id=user_id
+    )
+
+    if request.method == 'POST':
+
+        password1 = request.POST.get('password1')
+
+        password2 = request.POST.get('password2')
+
+        # ❌ PASSWORD NOT MATCH
+        if password1 != password2:
+
+            messages.error(
+                request,
+                "❌ Passwords do not match."
+            )
+
+            return redirect('reset_password')
+
+        # ✅ SET NEW PASSWORD
+        user.set_password(password1)
+
+        user.save()
+
+        # 🔥 CLEAR SESSION
+        request.session.pop(
+            'reset_user_id',
+            None
+        )
+
+        messages.success(
+            request,
+            "✅ Password reset successful."
+        )
+
+        return redirect('login')
+
+    return render(
+        request,
+        'reset_password.html'
+    )
+

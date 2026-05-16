@@ -1,0 +1,475 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-6 col-md-8">
+
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+
+                <!-- HEADER -->
+                <div class="bg-success text-white text-center p-4">
+
+                    <h2 class="fw-bold mb-2">
+
+                        Secure Payment 💳
+
+                    </h2>
+
+                    <p class="mb-0">
+
+                        Complete your booking payment securely
+
+                    </p>
+
+                </div>
+
+                <!-- BODY -->
+                <div class="card-body p-4">
+
+                    <!-- SERVICE -->
+                    <div class="text-center mb-4">
+
+                        <i class="bi bi-tools display-2 text-success"></i>
+
+                        <h2 class="fw-bold mt-3">
+
+                            {{ booking.service.name }}
+
+                        </h2>
+
+                        <p class="text-muted">
+
+                            Provider:
+                            {{ booking.provider.user.username }}
+
+                        </p>
+
+                    </div>
+
+                    <!-- DETAILS -->
+                    <div class="card bg-light border-0 rounded-4 mb-4">
+
+                        <div class="card-body">
+
+                            <div class="row g-3">
+
+                                <div class="col-6">
+
+                                    <small class="text-muted">
+
+                                        Booking Date
+
+                                    </small>
+
+                                    <h6 class="fw-bold">
+
+                                        {{ booking.date }}
+
+                                    </h6>
+
+                                </div>
+
+                                <div class="col-6">
+
+                                    <small class="text-muted">
+
+                                        Booking Time
+
+                                    </small>
+
+                                    <h6 class="fw-bold">
+
+                                        {{ booking.time }}
+
+                                    </h6>
+
+                                </div>
+
+                                <div class="col-12">
+
+                                    <small class="text-muted">
+
+                                        Address
+
+                                    </small>
+
+                                    <h6 class="fw-bold">
+
+                                        {{ booking.address }}
+
+                                    </h6>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- AMOUNT -->
+                    <div class="text-center mb-4">
+
+                        <small class="text-muted d-block">
+
+                            Total Amount
+
+                        </small>
+
+                        <h1 class="fw-bold text-success">
+
+                            ₹{{ amount }}
+
+                        </h1>
+
+                    </div>
+
+                    <!-- PAY BUTTON -->
+                    <button
+                        type="button"
+                        id="rzp-button1"
+                        class="btn btn-success w-100 py-3 fw-bold rounded-3 mb-3"
+                    >
+
+                        <i class="bi bi-shield-lock-fill"></i>
+
+                        Pay Securely
+
+                    </button>
+
+                    <!-- FAKE SUCCESS -->
+                    <button
+                        type="button"
+                        onclick="fakeSuccess()"
+                        class="btn btn-outline-dark w-100 py-3 fw-bold rounded-3"
+                    >
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                        Fake Payment Success
+
+                    </button>
+
+                    <!-- INFO -->
+                    <div class="alert alert-light border mt-4 mb-0">
+
+                        <div class="d-flex gap-2">
+
+                            <i class="bi bi-info-circle-fill text-primary"></i>
+
+                            <small>
+
+                                Razorpay Test Mode Enabled.
+                                Use test cards or fake success
+                                for localhost development.
+
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ========================================= -->
+<!-- 🔥 RAZORPAY -->
+<!-- ========================================= -->
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    function () {
+
+        const payBtn = document.getElementById(
+            "rzp-button1"
+        );
+
+        payBtn.onclick = function (e) {
+
+            e.preventDefault();
+
+            // DISABLE BUTTON
+            payBtn.disabled = true;
+
+            payBtn.innerHTML = `
+                <span class="spinner-border spinner-border-sm"></span>
+                Processing...
+            `;
+
+            var options = {
+
+                key: "{{ razorpay_key }}",
+
+                amount: "{{ payment.amount }}",
+
+                currency: "INR",
+
+                name: "ServiceHub",
+
+                description: "Service Booking Payment",
+
+                image:
+                "https://cdn-icons-png.flaticon.com/512/1041/1041886.png",
+
+                order_id: "{{ payment.id }}",
+
+                redirect: false,
+
+                handler: function (response) {
+
+                    console.log(response);
+
+                    // CREATE FORM
+                    let form =
+                    document.createElement(
+                        "form"
+                    );
+
+                    form.method = "POST";
+
+                    form.action =
+                    "{% url 'payment_success' %}";
+
+                    // CSRF
+                    let csrf =
+                    document.createElement(
+                        "input"
+                    );
+
+                    csrf.type = "hidden";
+
+                    csrf.name =
+                    "csrfmiddlewaretoken";
+
+                    csrf.value =
+                    "{{ csrf_token }}";
+
+                    form.appendChild(csrf);
+
+                    // PAYMENT ID
+                    let payment_id =
+                    document.createElement(
+                        "input"
+                    );
+
+                    payment_id.type =
+                    "hidden";
+
+                    payment_id.name =
+                    "razorpay_payment_id";
+
+                    payment_id.value =
+                    response.razorpay_payment_id;
+
+                    form.appendChild(
+                        payment_id
+                    );
+
+                    // ORDER ID
+                    let order_id =
+                    document.createElement(
+                        "input"
+                    );
+
+                    order_id.type =
+                    "hidden";
+
+                    order_id.name =
+                    "razorpay_order_id";
+
+                    order_id.value =
+                    response.razorpay_order_id;
+
+                    form.appendChild(
+                        order_id
+                    );
+
+                    // SIGNATURE
+                    let signature =
+                    document.createElement(
+                        "input"
+                    );
+
+                    signature.type =
+                    "hidden";
+
+                    signature.name =
+                    "razorpay_signature";
+
+                    signature.value =
+                    response.razorpay_signature;
+
+                    form.appendChild(
+                        signature
+                    );
+
+                    document.body.appendChild(
+                        form
+                    );
+
+                    form.submit();
+                },
+
+                prefill: {
+
+                    name:
+                    "{{ request.user.username }}",
+
+                    email:
+                    "{{ request.user.email }}",
+
+                    contact:
+                    "{{ booking.phone }}"
+                },
+
+                theme: {
+
+                    color: "#198754"
+                },
+
+                modal: {
+
+                    ondismiss: function () {
+
+                        payBtn.disabled = false;
+
+                        payBtn.innerHTML = `
+                            <i class="bi bi-shield-lock-fill"></i>
+                            Pay Securely
+                        `;
+
+                        alert(
+                            "Payment Cancelled"
+                        );
+                    }
+                }
+            };
+
+            var rzp =
+            new Razorpay(options);
+
+            // PAYMENT FAILED
+            rzp.on(
+
+                "payment.failed",
+
+                function (response) {
+
+                    console.log(
+                        response.error
+                    );
+
+                    payBtn.disabled = false;
+
+                    payBtn.innerHTML = `
+                        <i class="bi bi-shield-lock-fill"></i>
+                        Pay Securely
+                    `;
+
+                    alert(
+                        "Payment Failed"
+                    );
+                }
+            );
+
+            // OPEN
+            rzp.open();
+        };
+    }
+);
+
+
+// =========================================
+// 🔥 FAKE SUCCESS
+// =========================================
+
+function fakeSuccess() {
+
+    let form =
+    document.createElement("form");
+
+    form.method = "POST";
+
+    form.action =
+    "{% url 'payment_success' %}";
+
+    // CSRF
+    let csrf =
+    document.createElement("input");
+
+    csrf.type = "hidden";
+
+    csrf.name = "csrfmiddlewaretoken";
+
+    csrf.value = "{{ csrf_token }}";
+
+    form.appendChild(csrf);
+
+    // PAYMENT ID
+    let payment_id =
+    document.createElement("input");
+
+    payment_id.type = "hidden";
+
+    payment_id.name =
+    "razorpay_payment_id";
+
+    payment_id.value =
+    "fake_payment_123";
+
+    form.appendChild(payment_id);
+
+    // ORDER ID
+    let order_id =
+    document.createElement("input");
+
+    order_id.type = "hidden";
+
+    order_id.name =
+    "razorpay_order_id";
+
+    order_id.value =
+    "{{ booking.payment_id }}";
+
+    form.appendChild(order_id);
+
+    // SIGNATURE
+    let signature =
+    document.createElement("input");
+
+    signature.type = "hidden";
+
+    signature.name =
+    "razorpay_signature";
+
+    signature.value =
+    "fake_signature";
+
+    form.appendChild(signature);
+
+    document.body.appendChild(form);
+
+    form.submit();
+}
+
+</script>
+
+{% endblock %}

@@ -25,9 +25,29 @@ urlpatterns = [
     # ==============================
     # 👨‍🔧 PROVIDER MANAGEMENT
     # ==============================
-    path('providers/', views.manage_providers, name='manage_providers'),
-    path('providers/toggle/<int:id>/', views.toggle_provider, name='toggle_provider'),
-    path('providers/delete/<int:id>/', views.delete_provider, name='delete_provider'),
+path(
+    'providers/',
+    views.manage_providers,
+    name='manage_providers'
+),
+
+path(
+    'providers/toggle/<int:id>/',
+    views.toggle_provider,
+    name='toggle_provider'
+),
+
+path(
+    'providers/delete/<int:id>/',
+    views.delete_provider,
+    name='delete_provider'
+),
+
+path(
+    'providers/reviews/<int:id>/',
+    views.provider_reviews,
+    name='provider_reviews'
+),
 
     # ==============================
     # 🛠 SERVICE MANAGEMENT
